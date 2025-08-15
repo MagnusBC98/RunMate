@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": ".NET Core Launch (web)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      // This is the important line that points to your API project's output
+      "program": "${workspaceFolder}/RunMate.Api/RunMate.Endpoints/bin/Debug/net9.0/RunMate.Endpoints.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/RunMate.Api/RunMate.Endpoints",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    }
+  ]
+}

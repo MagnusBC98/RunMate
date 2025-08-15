@@ -1,0 +1,35 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using RunMate.Infrastructure.Identity;
+using RunMate.Application.Interfaces;
+using RunMate.Endpoints.Dtos;
+
+namespace RunMate.Api.Controllers;
+
+[ApiController]
+[Route("api/auth")]
+public class AuthController : ControllerBase
+{
+    private IAuthService _authService;
+
+    public AuthController(IAuthService authService)
+    {
+        _authService = authService;
+    }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterUserDto request)
+    {
+        try
+        {
+            var newUser = await _authService.RegisterUserAsync(request.FirstName, request.LastName,
+            request.Email, request.Password);
+
+            return CreatedAtAction(nameof(Register), new { userId = newUser.Id });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+}

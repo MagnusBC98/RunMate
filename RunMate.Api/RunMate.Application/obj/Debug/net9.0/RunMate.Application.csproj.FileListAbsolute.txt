@@ -1,0 +1,15 @@
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/bin/Debug/net9.0/RunMate.Application.deps.json
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/bin/Debug/net9.0/RunMate.Application.dll
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/bin/Debug/net9.0/RunMate.Application.pdb
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/bin/Debug/net9.0/RunMate.Domain.dll
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/bin/Debug/net9.0/RunMate.Domain.pdb
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/obj/Debug/net9.0/RunMate.Application.csproj.AssemblyReference.cache
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/obj/Debug/net9.0/RunMate.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/obj/Debug/net9.0/RunMate.Application.AssemblyInfoInputs.cache
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/obj/Debug/net9.0/RunMate.Application.AssemblyInfo.cs
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/obj/Debug/net9.0/RunMate.Application.csproj.CoreCompileInputs.cache
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/obj/Debug/net9.0/RunMate..026FF112.Up2Date
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/obj/Debug/net9.0/RunMate.Application.dll
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/obj/Debug/net9.0/refint/RunMate.Application.dll
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/obj/Debug/net9.0/RunMate.Application.pdb
+/Users/magnusbellcochran/RunMate/RunMate.Api/RunMate.Application/obj/Debug/net9.0/ref/RunMate.Application.dll

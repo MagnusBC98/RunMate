@@ -1,0 +1,35 @@
+using Microsoft.AspNetCore.Identity;
+using RunMate.Application.Interfaces;
+using RunMate.Domain.Entities;
+using RunMate.Infrastructure.Identity;
+using Microsoft.EntityFrameworkCore;
+
+namespace RunMate.Infrastructure.Persistence.Repositories;
+
+public class StatsRepository : IStatsRepository
+{
+    private readonly ApplicationDbContext _context;
+
+    public StatsRepository(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task AddStatsAsync(RunningStats stats)
+    {
+        _context.RunningStats.Add(stats);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<RunningStats> GetStatsByUserAsync(Guid userId)
+    {
+        var stat = await _context.RunningStats.FirstOrDefaultAsync(s => s.UserId == userId);
+        return stat ?? null;
+    }
+
+    public async Task UpdateUserStatsAsync(RunningStats stats)
+    {
+        _context.RunningStats.Update(stats);
+        await _context.SaveChangesAsync();
+    }
+}
