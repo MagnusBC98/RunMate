@@ -11,5 +11,12 @@ public class Run
     public double DistanceInKm { get; private set; }
     public TimeSpan AvgPaceInMinutesPerKm { get; private set; }
 
-    public User User { get; private set; } = null!;
+    public Run(Guid userId, DateTime runDate, double distanceInKm, TimeSpan avgPaceInMinutesPerKm)
+    {
+        Id = Guid.NewGuid();
+        UserId = userId;
+        RunDate = runDate;
+        DistanceInKm = distanceInKm;
+        AvgPaceInMinutesPerKm = avgPaceInMinutesPerKm;
+    }
 }

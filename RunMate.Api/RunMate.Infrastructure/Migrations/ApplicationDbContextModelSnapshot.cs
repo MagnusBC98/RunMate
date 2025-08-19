@@ -206,29 +206,6 @@ namespace RunMate.Infrastructure.Migrations
                     b.ToTable("RunningStats");
                 });
 
-            modelBuilder.Entity("RunMate.Domain.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
-                });
-
             modelBuilder.Entity("RunMate.Infrastructure.Identity.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
@@ -353,13 +330,11 @@ namespace RunMate.Infrastructure.Migrations
 
             modelBuilder.Entity("RunMate.Domain.Entities.Run", b =>
                 {
-                    b.HasOne("RunMate.Domain.Entities.User", "User")
+                    b.HasOne("RunMate.Infrastructure.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RunMate.Domain.Entities.RunningStats", b =>

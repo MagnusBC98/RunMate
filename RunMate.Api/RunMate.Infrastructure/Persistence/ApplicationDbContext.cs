@@ -28,7 +28,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .HasForeignKey<RunningStats>(rs => rs.UserId);
 
         builder.Entity<Run>()
-            .HasOne(r => r.User)
+            .HasOne<ApplicationUser>()
             .WithMany()
             .HasForeignKey(r => r.UserId);
     }
