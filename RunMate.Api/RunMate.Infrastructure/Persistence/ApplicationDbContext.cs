@@ -9,6 +9,7 @@ namespace RunMate.Infrastructure.Persistence;
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 {
     public DbSet<RunningStats> RunningStats { get; set; }
+    public DbSet<Run> Runs { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -25,5 +26,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .HasOne<ApplicationUser>()
             .WithOne()
             .HasForeignKey<RunningStats>(rs => rs.UserId);
+
+        builder.Entity<Run>()
+            .HasOne(r => r.User)
+            .WithMany()
+            .HasForeignKey(r => r.UserId);
     }
 }

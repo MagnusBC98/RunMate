@@ -12,7 +12,7 @@ using RunMate.Infrastructure.Persistence;
 namespace RunMate.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250819095302_InitialCreate")]
+    [Migration("20250819111307_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -155,6 +155,31 @@ namespace RunMate.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("RunMate.Domain.Entities.Run", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<TimeSpan>("AvgPaceInMinutesPerKm")
+                        .HasColumnType("interval");
+
+                    b.Property<double>("DistanceInKm")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("RunDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Runs");
+                });
+
             modelBuilder.Entity("RunMate.Domain.Entities.RunningStats", b =>
                 {
                     b.Property<Guid>("Id")
@@ -182,6 +207,29 @@ namespace RunMate.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("RunningStats");
+                });
+
+            modelBuilder.Entity("RunMate.Domain.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("RunMate.Infrastructure.Identity.ApplicationUser", b =>
@@ -304,6 +352,17 @@ namespace RunMate.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RunMate.Domain.Entities.Run", b =>
+                {
+                    b.HasOne("RunMate.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RunMate.Domain.Entities.RunningStats", b =>

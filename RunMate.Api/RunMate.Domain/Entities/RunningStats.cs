@@ -4,7 +4,6 @@ public class RunningStats
 {
     public Guid Id { get; private set; }
     public Guid UserId { get; private set; }
-    public User User { get; private set; } = null;
     public TimeSpan? FiveKmPb { get; private set; }
     public TimeSpan? TenKmPb { get; private set; }
     public TimeSpan? HalfMarathonPb { get; private set; }
