@@ -23,8 +23,8 @@ public class RunsService : IRunsService
         return await _runsRepository.AddRunAsync(run);
     }
 
-    public async Task<ICollection<Run>> SearchRunsAsync(double? distanceKm, TimeSpan? minPace, TimeSpan? maxPace)
+    public async Task<ICollection<Run>> SearchRunsAsync(double? minDistanceKm, double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace)
     {
-        return await _runsRepository.SearchRunsAsync(distanceKm, minPace, maxPace);
+        return await _runsRepository.SearchRunsAsync(minDistanceKm, maxDistanceKm, minPace, maxPace);
     }
 }

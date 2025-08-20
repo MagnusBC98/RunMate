@@ -40,11 +40,12 @@ public class RunsController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> SearchRuns(
-        [FromQuery] double? distanceKm,
+        [FromQuery] double? minDistanceKm,
+        [FromQuery] double? maxDistanceKm,
         [FromQuery] TimeSpan? minPace,
         [FromQuery] TimeSpan? maxPace)
     {
-        var runs = await _runsService.SearchRunsAsync(distanceKm, minPace, maxPace);
+        var runs = await _runsService.SearchRunsAsync(minDistanceKm, maxDistanceKm, minPace, maxPace);
         return Ok(runs);
     }
 }

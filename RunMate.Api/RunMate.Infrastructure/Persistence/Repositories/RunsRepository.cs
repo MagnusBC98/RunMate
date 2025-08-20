@@ -20,23 +20,28 @@ public class RunsRepository : IRunsRepository
         return run;
     }
 
-    public async Task<ICollection<Run>> SearchRunsAsync(double? distanceKm, TimeSpan? minPace, TimeSpan? maxPace)
+    public async Task<ICollection<Run>> SearchRunsAsync(double? minDistanceKm, double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace)
     {
         var query = _context.Runs.AsQueryable();
 
-        if (distanceKm.HasValue)
+        if (minDistanceKm.HasValue)
         {
-            query = query.Where(run => run.DistanceInKm >= distanceKm - 1 && run.DistanceInKm <= distanceKm + 1);
+            query = query.Where(run => run.DistanceInKm >= minDistanceKm.Value);
+        }
+
+        if (maxDistanceKm.HasValue)
+        {
+            query = query.Where(run => run.DistanceInKm <= maxDistanceKm.Value);
         }
 
         if (minPace.HasValue)
         {
-            query = query.Where(r => r.AvgPaceInMinutesPerKm >= minPace.Value);
+            query = query.Where(run => run.AvgPaceInMinutesPerKm >= minPace.Value);
         }
 
         if (maxPace.HasValue)
         {
-            query = query.Where(r => r.AvgPaceInMinutesPerKm <= maxPace.Value);
+            query = query.Where(run => run.AvgPaceInMinutesPerKm <= maxPace.Value);
         }
 
         return await query.ToListAsync();
