@@ -48,4 +48,17 @@ public class RunsController : ControllerBase
         var runs = await _runsService.SearchRunsAsync(minDistanceKm, maxDistanceKm, minPace, maxPace);
         return Ok(runs);
     }
+
+    [HttpGet("{runId:guid}")]
+    public async Task<IActionResult> GetRunById([FromRoute] Guid runId)
+    {
+        var run = await _runsService.GetRunByIdAsync(runId);
+
+        if (run is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(run);
+    }
 }

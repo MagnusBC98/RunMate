@@ -27,4 +27,9 @@ public class RunsService : IRunsService
     {
         return await _runsRepository.SearchRunsAsync(minDistanceKm, maxDistanceKm, minPace, maxPace);
     }
+
+    public async Task<Run> GetRunByIdAsync(Guid runId)
+    {
+        return await _runsRepository.GetRunByIdAsync(runId);
+    }
 }

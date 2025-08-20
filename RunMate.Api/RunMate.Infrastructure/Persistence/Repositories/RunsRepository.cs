@@ -46,4 +46,10 @@ public class RunsRepository : IRunsRepository
 
         return await query.ToListAsync();
     }
+
+    public async Task<Run> GetRunByIdAsync(Guid runId)
+    {
+        var run = await _context.Runs.FindAsync(runId);
+        return run ?? null;
+    }
 }
