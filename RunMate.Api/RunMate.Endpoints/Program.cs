@@ -34,10 +34,12 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IStatsRepository, StatsRepository>();
 builder.Services.AddScoped<IRunsRepository, RunsRepository>();
+builder.Services.AddScoped<IRunRequestsRepository, RunRequestsRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IStatsService, StatsService>();
 builder.Services.AddScoped<IRunsService, RunsService>();
+builder.Services.AddScoped<IRunRequestsService, RunRequestsService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

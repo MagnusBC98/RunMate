@@ -1,8 +1,5 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RunMate.Infrastructure.Identity;
 using RunMate.Application.Interfaces;
-using RunMate.Domain.Entities;
 using RunMate.Endpoints.Dtos;
 
 namespace RunMate.Api.Controllers;

@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RunMate.Infrastructure.Identity;
 using RunMate.Application.Interfaces;
 using RunMate.Endpoints.Dtos;
 

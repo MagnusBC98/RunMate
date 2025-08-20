@@ -10,6 +10,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 {
     public DbSet<RunningStats> RunningStats { get; set; }
     public DbSet<Run> Runs { get; set; }
+    public DbSet<RunRequest> RunRequests { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -31,5 +32,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             .HasOne<ApplicationUser>()
             .WithMany()
             .HasForeignKey(r => r.UserId);
+
+        builder.Entity<RunRequest>(entity =>
+        {
+            entity.HasOne(rr => rr.Run)
+                .WithMany()
+                .HasForeignKey(rr => rr.RunId);
+
+            entity.HasOne<ApplicationUser>()
+                .WithMany()
+                .HasForeignKey(rr => rr.RequesterUserId);
+
+            entity.HasOne<ApplicationUser>()
+                .WithMany()
+                .HasForeignKey(rr => rr.RunOwnerUserId);
+        });
     }
 }
