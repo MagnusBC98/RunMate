@@ -8,4 +8,5 @@ public interface IRunsRepository
     Task<ICollection<Run>> SearchRunsAsync(double? minDistanceKm, double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace);
     Task<Run> GetRunByIdAsync(Guid runId);
     Task UpdateRunAsync(Run run);
+    Task DeleteRunAsync(Run run);
 }

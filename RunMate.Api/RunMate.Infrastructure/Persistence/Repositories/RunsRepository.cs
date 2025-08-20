@@ -58,4 +58,13 @@ public class RunsRepository : IRunsRepository
         _context.Runs.Update(run);
         await _context.SaveChangesAsync();
     }
+
+    public async Task DeleteRunAsync(Run run)
+    {
+        if (run != null)
+        {
+            _context.Runs.Remove(run);
+            await _context.SaveChangesAsync();
+        }
+    }
 }

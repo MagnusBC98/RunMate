@@ -73,4 +73,11 @@ public class RunsController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpDelete("{runId:guid}")]
+    public async Task<IActionResult> DeleteRun([FromRoute] Guid runId)
+    {
+        await _runsService.DeleteRunAsync(runId);
+        return Ok();
+    }
 }

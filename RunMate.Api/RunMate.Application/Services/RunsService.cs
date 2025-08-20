@@ -40,4 +40,10 @@ public class RunsService : IRunsService
 
         await _runsRepository.UpdateRunAsync(run);
     }
+
+    public async Task DeleteRunAsync(Guid runId)
+    {
+        var run = await _runsRepository.GetRunByIdAsync(runId) ?? throw new InvalidOperationException("Run not found.");
+        await _runsRepository.DeleteRunAsync(run);
+    }
 }
