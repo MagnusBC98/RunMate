@@ -19,4 +19,11 @@ public class Run
         DistanceInKm = distanceInKm;
         AvgPaceInMinutesPerKm = avgPaceInMinutesPerKm;
     }
+
+    public void UpdateRun(DateTime runDate, double distanceInKm, TimeSpan avgPaceInMinutesPerKm)
+    {
+        RunDate = runDate;
+        DistanceInKm = distanceInKm;
+        AvgPaceInMinutesPerKm = avgPaceInMinutesPerKm;
+    }
 }

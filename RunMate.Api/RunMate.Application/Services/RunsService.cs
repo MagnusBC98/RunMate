@@ -32,4 +32,12 @@ public class RunsService : IRunsService
     {
         return await _runsRepository.GetRunByIdAsync(runId);
     }
+
+    public async Task UpdateRunAsync(Guid runId, DateTime runDate, double distanceInKm, TimeSpan avgPace)
+    {
+        var run = await _runsRepository.GetRunByIdAsync(runId) ?? throw new InvalidOperationException("Run not found.");
+        run.UpdateRun(runDate, distanceInKm, avgPace);
+
+        await _runsRepository.UpdateRunAsync(run);
+    }
 }

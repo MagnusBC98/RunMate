@@ -61,4 +61,16 @@ public class RunsController : ControllerBase
 
         return Ok(run);
     }
+
+    [HttpPut("{runId:guid}")]
+    public async Task<IActionResult> UpdateRun(
+        [FromRoute] Guid runId,
+        [FromBody] UpdateRunDto request)
+    {
+        TimeSpan.TryParse(request.AvgPaceInMinutesPerKm, out var avgPace);
+
+        await _runsService.UpdateRunAsync(runId, request.RunDate, request.DistanceInKm, avgPace);
+
+        return NoContent();
+    }
 }

@@ -52,4 +52,10 @@ public class RunsRepository : IRunsRepository
         var run = await _context.Runs.FindAsync(runId);
         return run ?? null;
     }
+
+    public async Task UpdateRunAsync(Run run)
+    {
+        _context.Runs.Update(run);
+        await _context.SaveChangesAsync();
+    }
 }
