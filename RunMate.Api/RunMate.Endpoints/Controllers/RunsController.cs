@@ -37,4 +37,14 @@ public class RunsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpGet]
+    public async Task<IActionResult> SearchRuns(
+        [FromQuery] double? distanceKm,
+        [FromQuery] TimeSpan? minPace,
+        [FromQuery] TimeSpan? maxPace)
+    {
+        var runs = await _runsService.SearchRunsAsync(distanceKm, minPace, maxPace);
+        return Ok(runs);
+    }
 }
