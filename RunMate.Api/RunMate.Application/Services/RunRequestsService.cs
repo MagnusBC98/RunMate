@@ -20,4 +20,9 @@ public class RunRequestsService : IRunRequestsService
         var runRequest = new RunRequest(run.Id, run.UserId, requesterUserId);
         return await _runRequestsRepository.AddRunRequestAsync(runRequest);
     }
+
+    public async Task<RunRequest> GetRunRequestByIdAsync(Guid requestId)
+    {
+        return await _runRequestsRepository.GetRunRequestByIdAsync(requestId);
+    }
 }

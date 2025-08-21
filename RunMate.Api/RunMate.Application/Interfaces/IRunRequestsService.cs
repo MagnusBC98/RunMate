@@ -5,4 +5,5 @@ namespace RunMate.Application.Interfaces;
 public interface IRunRequestsService
 {
     Task<RunRequest> AddRunRequestAsync(Guid runId, Guid requesterUserId);
+    Task<RunRequest> GetRunRequestByIdAsync(Guid requestId);
 }

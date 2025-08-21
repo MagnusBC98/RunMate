@@ -20,4 +20,18 @@ public class RunRequestsController : ControllerBase
         var runRequest = await _runRequestsService.AddRunRequestAsync(runId, requestBody.RequesterUserId);
         return CreatedAtAction(nameof(CreateRunRequest), new { requestId = runRequest.Id });
     }
+
+    [HttpGet("run-requests/{requestId:guid}")]
+    public async Task<IActionResult> GetRunRequestById([FromRoute] Guid requestId)
+    {
+        try
+        {
+            var runRequest = await _runRequestsService.GetRunRequestByIdAsync(requestId);
+            return Ok(runRequest);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

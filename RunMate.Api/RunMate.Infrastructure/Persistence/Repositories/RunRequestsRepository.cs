@@ -18,4 +18,10 @@ public class RunRequestsRepository : IRunRequestsRepository
         await _context.SaveChangesAsync();
         return request;
     }
+
+    public async Task<RunRequest> GetRunRequestByIdAsync(Guid requestId)
+    {
+        return await _context.RunRequests.FindAsync(requestId)
+               ?? throw new KeyNotFoundException($"Run request with ID {requestId} not found.");
+    }
 }
