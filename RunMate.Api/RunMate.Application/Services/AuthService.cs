@@ -7,11 +7,13 @@ public class AuthService : IAuthService
 {
     private IUserRepository _userRepository;
     private IStatsRepository _statsRepository;
+    private IJwtTokenGenerator _jwtTokenGenerator;
 
-    public AuthService(IUserRepository userRepository, IStatsRepository statsRepository)
+    public AuthService(IUserRepository userRepository, IStatsRepository statsRepository, IJwtTokenGenerator jwtTokenGenerator)
     {
         _userRepository = userRepository;
         _statsRepository = statsRepository;
+        _jwtTokenGenerator = jwtTokenGenerator;
     }
     public async Task<User> RegisterUserAsync(string firstName, string lastName, string email, string password)
     {
@@ -23,6 +25,20 @@ public class AuthService : IAuthService
         await _statsRepository.AddStatsAsync(stats);
 
         return createdUser;
+    }
+
+    public async Task<string?> LoginAsync(string email, string password)
+    {
+        var user = await _userRepository.GetUserByCredentialsAsync(email, password);
+
+        if (user is null)
+        {
+            return null;
+        }
+
+        var token = _jwtTokenGenerator.GenerateToken(user);
+
+        return token;
     }
 
 }

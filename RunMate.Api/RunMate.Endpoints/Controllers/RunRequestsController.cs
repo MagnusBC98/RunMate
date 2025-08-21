@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using RunMate.Application.Interfaces;
-using RunMate.Domain.Entities;
 using RunMate.Endpoints.Dtos;
 
 namespace RunMate.Api.Controllers;

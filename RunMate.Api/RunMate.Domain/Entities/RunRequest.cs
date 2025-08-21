@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
 
 namespace RunMate.Domain.Entities;
 

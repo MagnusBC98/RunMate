@@ -5,6 +5,7 @@ using RunMate.Infrastructure.Persistence;
 using RunMate.Infrastructure.Persistence.Repositories;
 using RunMate.Application.Interfaces;
 using RunMate.Application.Services;
+using RunMate.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,7 @@ builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IStatsService, StatsService>();
 builder.Services.AddScoped<IRunsService, RunsService>();
 builder.Services.AddScoped<IRunRequestsService, RunRequestsService>();
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

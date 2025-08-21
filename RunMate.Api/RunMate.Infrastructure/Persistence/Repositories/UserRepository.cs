@@ -64,4 +64,16 @@ public class UserRepository : IUserRepository
             await _userManager.UpdateAsync(applicationUser);
         }
     }
+
+    public async Task<User?> GetUserByCredentialsAsync(string email, string password)
+    {
+        var applicationUser = await _userManager.FindByEmailAsync(email);
+
+        if (applicationUser is not null && await _userManager.CheckPasswordAsync(applicationUser, password))
+        {
+            return new User(applicationUser.Id, applicationUser.FirstName, applicationUser.LastName, applicationUser.Email);
+        }
+
+        return null;
+    }
 }

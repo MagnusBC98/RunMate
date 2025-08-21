@@ -32,4 +32,17 @@ public class AuthController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginRequestDto request)
+    {
+        var token = await _authService.LoginAsync(request.Email, request.Password);
+
+        if (token is null)
+        {
+            return Unauthorized();
+        }
+
+        return Ok(new { Token = token });
+    }
 }
