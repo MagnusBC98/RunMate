@@ -40,7 +40,7 @@ public class UserRepository : IUserRepository
         );
     }
 
-    public async Task<User> GetUserByIdAsync(Guid userId)
+    public async Task<User?> GetUserByIdAsync(Guid userId)
     {
         var applicationUser = await _userManager.FindByIdAsync(userId.ToString());
 
@@ -49,7 +49,12 @@ public class UserRepository : IUserRepository
             return null;
         }
 
-        return new User(applicationUser.Id, applicationUser.FirstName, applicationUser.LastName, applicationUser.Email);
+        return new User(
+            applicationUser.Id,
+            applicationUser.FirstName ?? string.Empty,
+            applicationUser.LastName ?? string.Empty,
+            applicationUser.Email ?? string.Empty
+        );
     }
 
     public async Task UpdateUserAsync(User user)
@@ -71,7 +76,12 @@ public class UserRepository : IUserRepository
 
         if (applicationUser is not null && await _userManager.CheckPasswordAsync(applicationUser, password))
         {
-            return new User(applicationUser.Id, applicationUser.FirstName, applicationUser.LastName, applicationUser.Email);
+            return new User(
+                applicationUser.Id,
+                applicationUser.FirstName ?? string.Empty,
+                applicationUser.LastName ?? string.Empty,
+                applicationUser.Email ?? string.Empty
+            );
         }
 
         return null;

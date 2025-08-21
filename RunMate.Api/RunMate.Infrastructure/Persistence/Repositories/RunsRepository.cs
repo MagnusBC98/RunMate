@@ -49,8 +49,8 @@ public class RunsRepository : IRunsRepository
 
     public async Task<Run> GetRunByIdAsync(Guid runId)
     {
-        var run = await _context.Runs.FindAsync(runId);
-        return run ?? null;
+        return await _context.Runs.FindAsync(runId)
+            ?? throw new KeyNotFoundException($"Run  with ID {runId} not found.");
     }
 
     public async Task UpdateRunAsync(Run run)

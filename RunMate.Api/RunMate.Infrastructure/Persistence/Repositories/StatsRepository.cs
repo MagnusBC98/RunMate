@@ -23,8 +23,8 @@ public class StatsRepository : IStatsRepository
 
     public async Task<RunningStats> GetStatsByUserAsync(Guid userId)
     {
-        var stat = await _context.RunningStats.FirstOrDefaultAsync(s => s.UserId == userId);
-        return stat ?? null;
+        return await _context.RunningStats.FirstOrDefaultAsync(s => s.UserId == userId)
+            ?? throw new KeyNotFoundException($"Running stats for user with ID {userId} not found.");
     }
 
     public async Task UpdateUserStatsAsync(RunningStats stats)
