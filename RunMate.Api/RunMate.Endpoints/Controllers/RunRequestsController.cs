@@ -39,7 +39,7 @@ public class RunRequestsController : ControllerBase
     [HttpPatch("run-requests/{requestId:guid}")]
     public async Task<IActionResult> UpdateRequestStatus([FromRoute] Guid requestId, [FromBody] UpdateRunRequestStatusDto requestDto)
     {
-        await _runRequestsService.UpdateRequestStatusAsync(requestId, requestDto.Status);
-        return Ok();
+        var runRequest = await _runRequestsService.UpdateRequestStatusAsync(requestId, requestDto.Status);
+        return Ok(runRequest);
     }
 }

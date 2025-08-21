@@ -55,6 +55,6 @@ public class RunsController : ControllerBase
     public async Task<IActionResult> DeleteRun([FromRoute] Guid runId)
     {
         await _runsService.DeleteRunAsync(runId);
-        return Ok();
+        return NoContent();
     }
 }

@@ -20,7 +20,7 @@ public class RunsRepository : IRunsRepository
         return run;
     }
 
-    public async Task<ICollection<Run>> SearchRunsAsync(double? minDistanceKm, double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace)
+    public async Task<IEnumerable<Run>> SearchRunsAsync(double? minDistanceKm, double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace)
     {
         var query = _context.Runs.AsQueryable();
 

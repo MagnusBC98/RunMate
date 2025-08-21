@@ -7,10 +7,12 @@ namespace RunMate.Application.Services;
 public class RunsService : IRunsService
 {
     private readonly IRunsRepository _runsRepository;
+    private readonly IUserRepository _userRepository;
 
-    public RunsService(IRunsRepository runsRepository)
+    public RunsService(IRunsRepository runsRepository, IUserRepository userRepository)
     {
         _runsRepository = runsRepository;
+        _userRepository = userRepository;
     }
 
     public async Task<Run> CreateRunAsync(Guid userId, DateTime runDate, double distanceInKm, TimeSpan avgPace)
@@ -20,11 +22,16 @@ public class RunsService : IRunsService
             throw new ValidationException("Distance must be greater than zero.");
         }
 
+        if (await _userRepository.GetUserByIdAsync(userId) == null)
+        {
+            throw new NotFoundException($"User with ID {userId} not found.");
+        }
+
         var run = new Run(userId, runDate, distanceInKm, avgPace);
         return await _runsRepository.AddRunAsync(run);
     }
 
-    public async Task<ICollection<Run>> SearchRunsAsync(double? minDistanceKm, double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace)
+    public async Task<IEnumerable<Run>> SearchRunsAsync(double? minDistanceKm, double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace)
     {
         return await _runsRepository.SearchRunsAsync(minDistanceKm, maxDistanceKm, minPace, maxPace);
     }

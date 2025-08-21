@@ -23,9 +23,9 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("{userId:guid}")]
-    public async Task<IActionResult> UpdateUser([FromRoute] Guid userId, [FromBody] UpdateUserDto updateDto)
+    public async Task<IActionResult> UpdateUser([FromRoute] Guid userId, [FromBody] UpdateUserDto request)
     {
-        await _usersService.UpdateUserAsync(userId, updateDto.FirstName, updateDto.LastName);
+        await _usersService.UpdateUserAsync(userId, request.FirstName, request.LastName);
         return NoContent();
     }
 }

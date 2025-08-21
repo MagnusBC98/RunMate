@@ -8,11 +8,13 @@ public class RunRequestsService : IRunRequestsService
 {
     private readonly IRunRequestsRepository _runRequestsRepository;
     private readonly IRunsRepository _runsRepository;
+    private readonly IUserRepository _userRepository;
 
-    public RunRequestsService(IRunRequestsRepository runRequestsRepository, IRunsRepository runsRepository)
+    public RunRequestsService(IRunRequestsRepository runRequestsRepository, IRunsRepository runsRepository, IUserRepository userRepository)
     {
         _runRequestsRepository = runRequestsRepository;
         _runsRepository = runsRepository;
+        _userRepository = userRepository;
     }
 
     public async Task<RunRequest> AddRunRequestAsync(Guid runId, Guid requesterUserId)
@@ -22,6 +24,11 @@ public class RunRequestsService : IRunRequestsService
         if (run == null)
         {
             throw new NotFoundException($"Run with ID {runId} not found.");
+        }
+
+        if (await _userRepository.GetUserByIdAsync(requesterUserId) == null)
+        {
+            throw new NotFoundException($"User with ID {requesterUserId} not found.");
         }
 
         var runRequest = new RunRequest(run.Id, run.UserId, requesterUserId);
@@ -39,19 +46,23 @@ public class RunRequestsService : IRunRequestsService
         return await _runRequestsRepository.GetRunRequestsByRunIdAsync(runId);
     }
 
-    public async Task UpdateRequestStatusAsync(Guid requestId, string newStatus)
+    public async Task<RunRequest> UpdateRequestStatusAsync(Guid requestId, string newStatus)
     {
         var runRequest = await GetRunRequestAndEnsureExistsAsync(requestId);
 
         if (Enum.TryParse<RunRequestStatus>(newStatus, true, out var statusEnum))
         {
+            if (!Enum.IsDefined(typeof(RunRequestStatus), statusEnum))
+            {
+                throw new ValidationException($"Invalid status '{newStatus}' for run request.");
+            }
+
             runRequest.UpdateStatus(statusEnum);
             await _runRequestsRepository.UpdateRequestAsync(runRequest);
+            return runRequest;
         }
-        else
-        {
-            throw new ValidationException($"Invalid status '{newStatus}' for run request.");
-        }
+
+        throw new ValidationException($"Invalid status '{newStatus}' for run request.");
     }
 
     private async Task<RunRequest> GetRunRequestAndEnsureExistsAsync(Guid requestId)
