@@ -20,17 +20,11 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterUserDto request)
     {
-        try
-        {
-            var newUser = await _authService.RegisterUserAsync(request.FirstName, request.LastName,
-            request.Email, request.Password);
 
-            return CreatedAtAction(nameof(Register), new { userId = newUser.Id });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var newUser = await _authService.RegisterUserAsync(request.FirstName, request.LastName,
+        request.Email, request.Password);
+
+        return CreatedAtAction(nameof(Register), new { userId = newUser.Id });
     }
 
     [HttpPost("login")]

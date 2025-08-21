@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using RunMate.Application.Exceptions;
 using RunMate.Application.Interfaces;
 using RunMate.Domain.Entities;
 using RunMate.Infrastructure.Identity;
@@ -29,7 +30,7 @@ public class UserRepository : IUserRepository
         if (!result.Succeeded)
         {
             var firstError = result.Errors.FirstOrDefault()?.Description ?? "Unknown error.";
-            throw new InvalidOperationException($"Failed to create user: {firstError}");
+            throw new ValidationException($"Failed to create user: {firstError}");
         }
 
         return new User(

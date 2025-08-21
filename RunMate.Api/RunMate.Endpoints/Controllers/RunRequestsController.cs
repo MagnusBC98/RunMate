@@ -25,15 +25,8 @@ public class RunRequestsController : ControllerBase
     [HttpGet("run-requests/{requestId:guid}")]
     public async Task<IActionResult> GetRunRequestById([FromRoute] Guid requestId)
     {
-        try
-        {
-            var runRequest = await _runRequestsService.GetRunRequestByIdAsync(requestId);
-            return Ok(runRequest);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var runRequest = await _runRequestsService.GetRunRequestByIdAsync(requestId);
+        return Ok(runRequest);
     }
 
     [HttpGet("runs/{runId:guid}/requests")]

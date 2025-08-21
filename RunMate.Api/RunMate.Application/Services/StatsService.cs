@@ -1,3 +1,4 @@
+using RunMate.Application.Exceptions;
 using RunMate.Application.Interfaces;
 using RunMate.Domain.Entities;
 
@@ -13,7 +14,14 @@ public class StatsService : IStatsService
 
     public async Task<RunningStats> GetStatsByUserAsync(Guid userId)
     {
-        return await _statsRepository.GetStatsByUserAsync(userId);
+        var stats = await _statsRepository.GetStatsByUserAsync(userId);
+
+        if (stats == null)
+        {
+            throw new NotFoundException($"Stats for user with ID {userId} not found.");
+        }
+
+        return stats;
     }
 
     public async Task UpdateUserStatsAsync(Guid userId, TimeSpan? FiveKmPb, TimeSpan? TenKmPb,
@@ -23,12 +31,11 @@ public class StatsService : IStatsService
 
         if (existingStats is null)
         {
-            return;
+            throw new NotFoundException($"Stats for user with ID {userId} not found.");
         }
 
         existingStats.UpdateStats(FiveKmPb, TenKmPb, HalfMarathonPb, MarathonPb);
 
         await _statsRepository.UpdateUserStatsAsync(existingStats);
     }
-
 }

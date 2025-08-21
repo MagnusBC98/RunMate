@@ -19,12 +19,6 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> GetUserById([FromRoute] Guid userId)
     {
         var user = await _usersService.GetUserByIdAsync(userId);
-
-        if (user is null)
-        {
-            return NotFound();
-        }
-
         return Ok(user);
     }
 
@@ -32,7 +26,6 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> UpdateUser([FromRoute] Guid userId, [FromBody] UpdateUserDto updateDto)
     {
         await _usersService.UpdateUserAsync(userId, updateDto.FirstName, updateDto.LastName);
-
         return NoContent();
     }
 }

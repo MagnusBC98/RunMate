@@ -18,22 +18,10 @@ public class RunsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateRun([FromBody] CreateRunDto request)
     {
-        try
-        {
-            if (!TimeSpan.TryParse(request.AvgPaceInMinutesPerKm, out var pace))
-            {
-                return BadRequest("Invalid pace format. Please use hh:mm:ss.");
-            }
+        var newRun = await _runsService.CreateRunAsync(request.UserId, request.RunDate,
+        request.DistanceInKm, request.AvgPaceInMinutesPerKm);
 
-            var newRun = await _runsService.CreateRunAsync(request.UserId, request.RunDate,
-            request.DistanceInKm, pace);
-
-            return CreatedAtAction(nameof(CreateRun), new { runId = newRun.Id });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        return CreatedAtAction(nameof(CreateRun), new { runId = newRun.Id });
     }
 
     [HttpGet]
@@ -51,12 +39,6 @@ public class RunsController : ControllerBase
     public async Task<IActionResult> GetRunById([FromRoute] Guid runId)
     {
         var run = await _runsService.GetRunByIdAsync(runId);
-
-        if (run is null)
-        {
-            return NotFound();
-        }
-
         return Ok(run);
     }
 
@@ -65,10 +47,7 @@ public class RunsController : ControllerBase
         [FromRoute] Guid runId,
         [FromBody] UpdateRunDto request)
     {
-        TimeSpan.TryParse(request.AvgPaceInMinutesPerKm, out var avgPace);
-
-        await _runsService.UpdateRunAsync(runId, request.RunDate, request.DistanceInKm, avgPace);
-
+        await _runsService.UpdateRunAsync(runId, request.RunDate, request.DistanceInKm, request.AvgPaceInMinutesPerKm);
         return NoContent();
     }
 

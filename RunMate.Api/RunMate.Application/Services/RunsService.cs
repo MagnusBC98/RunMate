@@ -1,3 +1,4 @@
+using RunMate.Application.Exceptions;
 using RunMate.Application.Interfaces;
 using RunMate.Domain.Entities;
 
@@ -16,7 +17,7 @@ public class RunsService : IRunsService
     {
         if (distanceInKm <= 0)
         {
-            throw new InvalidOperationException("Distance must be greater than zero.");
+            throw new ValidationException("Distance must be greater than zero.");
         }
 
         var run = new Run(userId, runDate, distanceInKm, avgPace);
@@ -30,20 +31,37 @@ public class RunsService : IRunsService
 
     public async Task<Run> GetRunByIdAsync(Guid runId)
     {
-        return await _runsRepository.GetRunByIdAsync(runId);
+        var run = await GetRunAndEnsureExistsAsync(runId);
+        return run;
     }
 
     public async Task UpdateRunAsync(Guid runId, DateTime runDate, double distanceInKm, TimeSpan avgPace)
     {
-        var run = await _runsRepository.GetRunByIdAsync(runId) ?? throw new InvalidOperationException("Run not found.");
-        run.UpdateRun(runDate, distanceInKm, avgPace);
+        if (distanceInKm <= 0)
+        {
+            throw new ValidationException("Distance must be greater than zero.");
+        }
 
+        var run = await GetRunAndEnsureExistsAsync(runId);
+        run.UpdateRun(runDate, distanceInKm, avgPace);
         await _runsRepository.UpdateRunAsync(run);
     }
 
     public async Task DeleteRunAsync(Guid runId)
     {
-        var run = await _runsRepository.GetRunByIdAsync(runId) ?? throw new InvalidOperationException("Run not found.");
+        var run = await GetRunAndEnsureExistsAsync(runId);
         await _runsRepository.DeleteRunAsync(run);
+    }
+
+    private async Task<Run> GetRunAndEnsureExistsAsync(Guid runId)
+    {
+        var run = await _runsRepository.GetRunByIdAsync(runId);
+
+        if (run == null)
+        {
+            throw new NotFoundException($"Run with ID {runId} not found.");
+        }
+
+        return run;
     }
 }

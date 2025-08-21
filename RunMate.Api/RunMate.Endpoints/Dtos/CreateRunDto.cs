@@ -4,5 +4,5 @@ public record CreateRunDto(
     Guid UserId,
     DateTime RunDate,
     double DistanceInKm,
-    string AvgPaceInMinutesPerKm
+    TimeSpan AvgPaceInMinutesPerKm
 );

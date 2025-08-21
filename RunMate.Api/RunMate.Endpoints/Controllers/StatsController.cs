@@ -21,25 +21,13 @@ public class StatsController : ControllerBase
     public async Task<IActionResult> GetStats([FromRoute] Guid userId)
     {
         var stats = await _statsService.GetStatsByUserAsync(userId);
-
-        if (stats is null)
-        {
-            return NotFound();
-        }
-
         return Ok(stats);
     }
 
     [HttpPut("{userId:guid}/stats")]
-    public async Task<IActionResult> UpdateStats([FromRoute] Guid userId, [FromBody] UpdateStatsDto updateDto)
+    public async Task<IActionResult> UpdateStats([FromRoute] Guid userId, [FromBody] UpdateStatsDto request)
     {
-        TimeSpan.TryParse(updateDto.FiveKmPb, out var fiveKmPb);
-        TimeSpan.TryParse(updateDto.TenKmPb, out var tenKmPb);
-        TimeSpan.TryParse(updateDto.HalfMarathonPb, out var halfMarathonPb);
-        TimeSpan.TryParse(updateDto.MarathonPb, out var marathonPb);
-
-        await _statsService.UpdateUserStatsAsync(userId, fiveKmPb, tenKmPb, halfMarathonPb, marathonPb);
-
+        await _statsService.UpdateUserStatsAsync(userId, request.FiveKmPb, request.TenKmPb, request.HalfMarathonPb, request.MarathonPb);
         return NoContent();
     }
 }

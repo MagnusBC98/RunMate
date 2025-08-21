@@ -21,10 +21,9 @@ public class StatsRepository : IStatsRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<RunningStats> GetStatsByUserAsync(Guid userId)
+    public async Task<RunningStats?> GetStatsByUserAsync(Guid userId)
     {
-        return await _context.RunningStats.FirstOrDefaultAsync(s => s.UserId == userId)
-            ?? throw new KeyNotFoundException($"Running stats for user with ID {userId} not found.");
+        return await _context.RunningStats.FirstOrDefaultAsync(s => s.UserId == userId);
     }
 
     public async Task UpdateUserStatsAsync(RunningStats stats)
