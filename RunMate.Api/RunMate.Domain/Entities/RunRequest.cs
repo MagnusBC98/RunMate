@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
 namespace RunMate.Domain.Entities;
 
@@ -20,5 +21,10 @@ public class RunRequest
         RunOwnerUserId = runOwnerUserId;
         RequesterUserId = requesterUserId;
         Status = RunRequestStatus.Pending;
+    }
+
+    public void UpdateStatus(RunRequestStatus newStatus)
+    {
+        Status = newStatus;
     }
 }

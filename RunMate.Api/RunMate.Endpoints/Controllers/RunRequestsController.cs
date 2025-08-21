@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RunMate.Application.Interfaces;
+using RunMate.Domain.Entities;
+using RunMate.Endpoints.Dtos;
 
 namespace RunMate.Api.Controllers;
 
@@ -33,5 +35,19 @@ public class RunRequestsController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
+    }
+
+    [HttpGet("runs/{runId:guid}/requests")]
+    public async Task<IActionResult> GetRunRequestsByRunId([FromRoute] Guid runId)
+    {
+        var runRequests = await _runRequestsService.GetRunRequestsByRunIdAsync(runId);
+        return Ok(runRequests);
+    }
+
+    [HttpPatch("run-requests/{requestId:guid}")]
+    public async Task<IActionResult> UpdateRequestStatus([FromRoute] Guid requestId, [FromBody] UpdateRunRequestStatusDto requestDto)
+    {
+        await _runRequestsService.UpdateRequestStatusAsync(requestId, requestDto.Status);
+        return Ok();
     }
 }

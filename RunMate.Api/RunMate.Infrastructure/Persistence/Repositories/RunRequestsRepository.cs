@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using RunMate.Application.Interfaces;
 using RunMate.Domain.Entities;
 
@@ -23,5 +24,17 @@ public class RunRequestsRepository : IRunRequestsRepository
     {
         return await _context.RunRequests.FindAsync(requestId)
                ?? throw new KeyNotFoundException($"Run request with ID {requestId} not found.");
+    }
+
+    public async Task<IEnumerable<RunRequest>> GetRunRequestsByRunIdAsync(Guid runId)
+    {
+        var runRequests = _context.RunRequests.Where(rr => rr.RunId == runId);
+        return await runRequests.ToListAsync();
+    }
+
+    public async Task UpdateRequestAsync(RunRequest request)
+    {
+        _context.RunRequests.Update(request);
+        await _context.SaveChangesAsync();
     }
 }

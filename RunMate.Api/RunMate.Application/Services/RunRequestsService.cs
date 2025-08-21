@@ -25,4 +25,19 @@ public class RunRequestsService : IRunRequestsService
     {
         return await _runRequestsRepository.GetRunRequestByIdAsync(requestId);
     }
+
+    public async Task<IEnumerable<RunRequest>> GetRunRequestsByRunIdAsync(Guid runId)
+    {
+        return await _runRequestsRepository.GetRunRequestsByRunIdAsync(runId);
+    }
+
+    public async Task UpdateRequestStatusAsync(Guid requestId, string newStatus)
+    {
+        var runRequest = await _runRequestsRepository.GetRunRequestByIdAsync(requestId);
+        if (Enum.TryParse<RunRequestStatus>(newStatus, true, out var statusEnum))
+        {
+            runRequest.UpdateStatus(statusEnum);
+            await _runRequestsRepository.UpdateRequestAsync(runRequest);
+        }
+    }
 }
