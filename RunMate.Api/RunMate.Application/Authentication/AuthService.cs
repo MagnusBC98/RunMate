@@ -3,18 +3,15 @@ using RunMate.Application.Users;
 
 namespace RunMate.Application.Authentication;
 
-public class AuthService : IAuthService
+public class AuthService(
+    IUserRepository userRepository,
+    IStatsRepository statsRepository,
+    IJwtTokenGenerator jwtTokenGenerator) : IAuthService
 {
-    private IUserRepository _userRepository;
-    private IStatsRepository _statsRepository;
-    private IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IUserRepository _userRepository = userRepository;
+    private readonly IStatsRepository _statsRepository = statsRepository;
+    private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
 
-    public AuthService(IUserRepository userRepository, IStatsRepository statsRepository, IJwtTokenGenerator jwtTokenGenerator)
-    {
-        _userRepository = userRepository;
-        _statsRepository = statsRepository;
-        _jwtTokenGenerator = jwtTokenGenerator;
-    }
     public async Task<User> RegisterUserAsync(string firstName, string lastName, string email, string password)
     {
         var userToCreate = new User(firstName, lastName, email);
@@ -40,5 +37,4 @@ public class AuthService : IAuthService
 
         return token;
     }
-
 }

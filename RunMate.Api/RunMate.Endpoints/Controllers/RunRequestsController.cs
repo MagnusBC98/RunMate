@@ -9,14 +9,9 @@ namespace RunMate.Api.Controllers;
 [Authorize]
 [ApiController]
 [Route("api")]
-public class RunRequestsController : ControllerBase
+public class RunRequestsController(IRunRequestsService runRequestsService) : ControllerBase
 {
-    private IRunRequestsService _runRequestsService;
-
-    public RunRequestsController(IRunRequestsService runRequestsService)
-    {
-        _runRequestsService = runRequestsService;
-    }
+    private readonly IRunRequestsService _runRequestsService = runRequestsService;
 
     [HttpPost("runs/{runId:guid}/request")]
     public async Task<IActionResult> CreateRunRequest([FromRoute] Guid runId)

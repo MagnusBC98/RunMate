@@ -9,14 +9,9 @@ namespace RunMate.Api.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/users")]
-public class UsersController : ControllerBase
+public class UsersController(IUsersService usersService) : ControllerBase
 {
-    private IUsersService _usersService;
-
-    public UsersController(IUsersService usersService)
-    {
-        _usersService = usersService;
-    }
+    private readonly IUsersService _usersService = usersService;
 
     [HttpGet("{userId:guid}")]
     public async Task<IActionResult> GetUserById([FromRoute] Guid userId)

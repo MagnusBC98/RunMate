@@ -9,14 +9,9 @@ namespace RunMate.Api.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/users")]
-public class StatsController : ControllerBase
+public class StatsController(IStatsService statsService) : ControllerBase
 {
-    private IStatsService _statsService;
-
-    public StatsController(IStatsService statsService)
-    {
-        _statsService = statsService;
-    }
+    private readonly IStatsService _statsService = statsService;
 
     [HttpGet("{userId:guid}/stats")]
     public async Task<IActionResult> GetStats([FromRoute] Guid userId)

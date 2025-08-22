@@ -4,14 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RunMate.Infrastructure.Persistence.Repositories;
 
-public class RunsRepository : IRunsRepository
+public class RunsRepository(ApplicationDbContext context) : IRunsRepository
 {
-    private readonly ApplicationDbContext _context;
-
-    public RunsRepository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
+    private readonly ApplicationDbContext _context = context;
 
     public async Task<Run> AddRunAsync(Run run)
     {

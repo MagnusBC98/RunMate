@@ -4,14 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RunMate.Infrastructure.Persistence.Repositories;
 
-public class StatsRepository : IStatsRepository
+public class StatsRepository(ApplicationDbContext context) : IStatsRepository
 {
-    private readonly ApplicationDbContext _context;
-
-    public StatsRepository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
+    private readonly ApplicationDbContext _context = context;
 
     public async Task AddStatsAsync(RunningStats stats)
     {

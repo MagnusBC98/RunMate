@@ -4,16 +4,12 @@ using RunMate.Domain.Entities;
 
 namespace RunMate.Application.Runs;
 
-public class RunsService : IRunsService
+public class RunsService(
+    IRunsRepository runsRepository,
+    IUserRepository userRepository) : IRunsService
 {
-    private readonly IRunsRepository _runsRepository;
-    private readonly IUserRepository _userRepository;
-
-    public RunsService(IRunsRepository runsRepository, IUserRepository userRepository)
-    {
-        _runsRepository = runsRepository;
-        _userRepository = userRepository;
-    }
+    private readonly IRunsRepository _runsRepository = runsRepository;
+    private readonly IUserRepository _userRepository = userRepository;
 
     public async Task<Run> CreateRunAsync(Guid userId, DateTime runDate, double distanceInKm, TimeSpan avgPace)
     {
@@ -38,8 +34,7 @@ public class RunsService : IRunsService
 
     public async Task<Run> GetRunByIdAsync(Guid runId)
     {
-        var run = await GetRunAndEnsureExistsAsync(runId);
-        return run;
+        return await GetRunAndEnsureExistsAsync(runId);
     }
 
     public async Task UpdateRunAsync(Guid currentUserId, Guid runId, DateTime runDate, double distanceInKm, TimeSpan avgPace)
@@ -74,13 +69,8 @@ public class RunsService : IRunsService
 
     private async Task<Run> GetRunAndEnsureExistsAsync(Guid runId)
     {
-        var run = await _runsRepository.GetRunByIdAsync(runId);
-
-        if (run == null)
-        {
+        var run = await _runsRepository.GetRunByIdAsync(runId) ??
             throw new NotFoundException($"Run with ID {runId} not found.");
-        }
-
         return run;
     }
 }

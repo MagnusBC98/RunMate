@@ -5,14 +5,9 @@ using RunMate.Domain.Entities;
 
 namespace RunMate.Infrastructure.Persistence.Repositories;
 
-public class RunRequestsRepository : IRunRequestsRepository
+public class RunRequestsRepository(ApplicationDbContext context) : IRunRequestsRepository
 {
-    private readonly ApplicationDbContext _context;
-
-    public RunRequestsRepository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
+    private readonly ApplicationDbContext _context = context;
 
     public async Task<RunRequest> AddRunRequestAsync(RunRequest request)
     {
@@ -21,16 +16,9 @@ public class RunRequestsRepository : IRunRequestsRepository
         return request;
     }
 
-    public async Task<RunRequest> GetRunRequestByIdAsync(Guid requestId)
+    public async Task<RunRequest?> GetRunRequestByIdAsync(Guid requestId)
     {
-        var runRequest = await _context.RunRequests.FindAsync(requestId);
-
-        if (runRequest == null)
-        {
-            throw new NotFoundException($"Run Request with ID {requestId} not found.");
-        }
-
-        return runRequest;
+        return await _context.RunRequests.FindAsync(requestId);
     }
 
     public async Task<IEnumerable<RunRequest>> GetRunRequestsByRunIdAsync(Guid runId)

@@ -2,30 +2,23 @@ using RunMate.Application.Exceptions;
 using RunMate.Domain.Entities;
 using RunMate.Application.Runs;
 using RunMate.Application.Users;
+using RunMate.Domain.Enums;
 
 namespace RunMate.Application.RunRequests;
 
-public class RunRequestsService : IRunRequestsService
+public class RunRequestsService(
+    IRunRequestsRepository runRequestsRepository,
+    IRunsRepository runsRepository,
+    IUserRepository userRepository) : IRunRequestsService
 {
-    private readonly IRunRequestsRepository _runRequestsRepository;
-    private readonly IRunsRepository _runsRepository;
-    private readonly IUserRepository _userRepository;
-
-    public RunRequestsService(IRunRequestsRepository runRequestsRepository, IRunsRepository runsRepository, IUserRepository userRepository)
-    {
-        _runRequestsRepository = runRequestsRepository;
-        _runsRepository = runsRepository;
-        _userRepository = userRepository;
-    }
+    private readonly IRunRequestsRepository _runRequestsRepository = runRequestsRepository;
+    private readonly IRunsRepository _runsRepository = runsRepository;
+    private readonly IUserRepository _userRepository = userRepository;
 
     public async Task<RunRequest> AddRunRequestAsync(Guid runId, Guid requesterUserId)
     {
-        var run = await _runsRepository.GetRunByIdAsync(runId);
-
-        if (run == null)
-        {
+        var run = await _runsRepository.GetRunByIdAsync(runId) ??
             throw new NotFoundException($"Run with ID {runId} not found.");
-        }
 
         if (await _userRepository.GetUserByIdAsync(requesterUserId) == null)
         {
@@ -38,18 +31,13 @@ public class RunRequestsService : IRunRequestsService
 
     public async Task<RunRequest> GetRunRequestByIdAsync(Guid requestId)
     {
-        var runRequest = await GetRunRequestAndEnsureExistsAsync(requestId);
-        return runRequest;
+        return await GetRunRequestAndEnsureExistsAsync(requestId);
     }
 
     public async Task<IEnumerable<RunRequest>> GetRunRequestsByRunIdAsync(Guid currentUserId, Guid runId)
     {
-        var run = await _runsRepository.GetRunByIdAsync(runId);
-
-        if (run == null)
-        {
+        var run = await _runsRepository.GetRunByIdAsync(runId) ??
             throw new NotFoundException($"Run with ID {runId} not found.");
-        }
 
         if (run.UserId != currentUserId)
         {
@@ -85,13 +73,8 @@ public class RunRequestsService : IRunRequestsService
 
     private async Task<RunRequest> GetRunRequestAndEnsureExistsAsync(Guid requestId)
     {
-        var runRequest = await _runRequestsRepository.GetRunRequestByIdAsync(requestId);
-
-        if (runRequest == null)
-        {
+        var runRequest = await _runRequestsRepository.GetRunRequestByIdAsync(requestId) ??
             throw new NotFoundException($"Run Request with ID {requestId} not found.");
-        }
-
         return runRequest;
     }
 }
