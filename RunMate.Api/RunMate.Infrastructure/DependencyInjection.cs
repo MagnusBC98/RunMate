@@ -6,11 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using RunMate.Application.Interfaces;
 using RunMate.Infrastructure.Identity;
 using RunMate.Infrastructure.Persistence;
 using RunMate.Infrastructure.Persistence.Repositories;
 using RunMate.Infrastructure.Services;
+using RunMate.Application.Users;
+using RunMate.Application.Authentication;
+using RunMate.Application.Runs;
+using RunMate.Application.RunRequests;
 
 namespace RunMate.Infrastructure;
 

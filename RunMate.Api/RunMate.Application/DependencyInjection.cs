@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using RunMate.Application.Services;
-using RunMate.Application.Interfaces;
+using RunMate.Application.Users;
+using RunMate.Application.Authentication;
+using RunMate.Application.Runs;
+using RunMate.Application.RunRequests;
 
 namespace RunMate.Application;
 

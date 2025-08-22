@@ -1,8 +1,7 @@
 using RunMate.Application.Exceptions;
-using RunMate.Application.Interfaces;
 using RunMate.Domain.Entities;
 
-namespace RunMate.Application.Services;
+namespace RunMate.Application.Users;
 
 public class StatsService : IStatsService
 {

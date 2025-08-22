@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Identity;
-using RunMate.Application.Interfaces;
+using RunMate.Application.Users;
 using RunMate.Domain.Entities;
-using RunMate.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace RunMate.Infrastructure.Persistence.Repositories;

@@ -1,7 +1,7 @@
-using RunMate.Application.Interfaces;
 using RunMate.Domain.Entities;
+using RunMate.Application.Users;
 
-namespace RunMate.Application.Services;
+namespace RunMate.Application.Authentication;
 
 public class AuthService : IAuthService
 {

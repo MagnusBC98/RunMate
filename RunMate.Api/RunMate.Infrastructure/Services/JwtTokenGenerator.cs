@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using RunMate.Application.Interfaces;
+using RunMate.Application.Authentication;
 using RunMate.Domain.Entities;
 
 namespace RunMate.Infrastructure.Services;

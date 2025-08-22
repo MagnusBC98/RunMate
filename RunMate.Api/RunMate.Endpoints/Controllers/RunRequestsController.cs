@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RunMate.Application.Interfaces;
+using RunMate.Application.RunRequests;
 using RunMate.Endpoints.Dtos;
 using System.Security.Claims;
 

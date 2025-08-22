@@ -1,4 +1,4 @@
-using RunMate.Application.Interfaces;
+using RunMate.Application.Runs;
 using RunMate.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,6 +1,6 @@
 using RunMate.Domain.Entities;
 
-namespace RunMate.Application.Interfaces;
+namespace RunMate.Application.Runs;
 
 public interface IRunsRepository
 {

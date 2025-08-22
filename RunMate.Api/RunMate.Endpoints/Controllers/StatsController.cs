@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using RunMate.Application.Interfaces;
+using RunMate.Application.Users;
 using RunMate.Endpoints.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;

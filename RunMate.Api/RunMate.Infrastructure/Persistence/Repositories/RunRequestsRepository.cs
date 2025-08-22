@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RunMate.Application.Exceptions;
-using RunMate.Application.Interfaces;
+using RunMate.Application.RunRequests;
 using RunMate.Domain.Entities;
 
 namespace RunMate.Infrastructure.Persistence.Repositories;

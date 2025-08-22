@@ -1,8 +1,9 @@
 using RunMate.Application.Exceptions;
-using RunMate.Application.Interfaces;
 using RunMate.Domain.Entities;
+using RunMate.Application.Runs;
+using RunMate.Application.Users;
 
-namespace RunMate.Application.Services;
+namespace RunMate.Application.RunRequests;
 
 public class RunRequestsService : IRunRequestsService
 {
