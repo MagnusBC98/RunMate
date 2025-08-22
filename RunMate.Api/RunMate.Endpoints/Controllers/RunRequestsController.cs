@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RunMate.Application.Interfaces;
 using RunMate.Endpoints.Dtos;
+using System.Security.Claims;
 
 namespace RunMate.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api")]
 public class RunRequestsController : ControllerBase
@@ -16,9 +19,10 @@ public class RunRequestsController : ControllerBase
     }
 
     [HttpPost("runs/{runId:guid}/request")]
-    public async Task<IActionResult> CreateRunRequest([FromRoute] Guid runId, [FromBody] CreateRunRequestDto requestBody)
+    public async Task<IActionResult> CreateRunRequest([FromRoute] Guid runId)
     {
-        var runRequest = await _runRequestsService.AddRunRequestAsync(runId, requestBody.RequesterUserId);
+        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var runRequest = await _runRequestsService.AddRunRequestAsync(runId, currentUserId);
         return CreatedAtAction(nameof(CreateRunRequest), new { requestId = runRequest.Id });
     }
 
@@ -32,14 +36,16 @@ public class RunRequestsController : ControllerBase
     [HttpGet("runs/{runId:guid}/requests")]
     public async Task<IActionResult> GetRunRequestsByRunId([FromRoute] Guid runId)
     {
-        var runRequests = await _runRequestsService.GetRunRequestsByRunIdAsync(runId);
+        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var runRequests = await _runRequestsService.GetRunRequestsByRunIdAsync(currentUserId, runId);
         return Ok(runRequests);
     }
 
     [HttpPatch("run-requests/{requestId:guid}")]
     public async Task<IActionResult> UpdateRequestStatus([FromRoute] Guid requestId, [FromBody] UpdateRunRequestStatusDto requestDto)
     {
-        var runRequest = await _runRequestsService.UpdateRequestStatusAsync(requestId, requestDto.Status);
+        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var runRequest = await _runRequestsService.UpdateRequestStatusAsync(currentUserId, requestId, requestDto.Status);
         return Ok(runRequest);
     }
 }

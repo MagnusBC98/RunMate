@@ -41,14 +41,31 @@ public class RunRequestsService : IRunRequestsService
         return runRequest;
     }
 
-    public async Task<IEnumerable<RunRequest>> GetRunRequestsByRunIdAsync(Guid runId)
+    public async Task<IEnumerable<RunRequest>> GetRunRequestsByRunIdAsync(Guid currentUserId, Guid runId)
     {
+        var run = await _runsRepository.GetRunByIdAsync(runId);
+
+        if (run == null)
+        {
+            throw new NotFoundException($"Run with ID {runId} not found.");
+        }
+
+        if (run.UserId != currentUserId)
+        {
+            throw new UnauthorizedException("You are not authorized to retrieve requests made for this run.");
+        }
+
         return await _runRequestsRepository.GetRunRequestsByRunIdAsync(runId);
     }
 
-    public async Task<RunRequest> UpdateRequestStatusAsync(Guid requestId, string newStatus)
+    public async Task<RunRequest> UpdateRequestStatusAsync(Guid currentUserId, Guid requestId, string newStatus)
     {
         var runRequest = await GetRunRequestAndEnsureExistsAsync(requestId);
+
+        if (runRequest.RunOwnerUserId != currentUserId)
+        {
+            throw new UnauthorizedException("You are not authorized to accept or decline this run request.");
+        }
 
         if (Enum.TryParse<RunRequestStatus>(newStatus, true, out var statusEnum))
         {

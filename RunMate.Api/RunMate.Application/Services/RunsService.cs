@@ -42,7 +42,7 @@ public class RunsService : IRunsService
         return run;
     }
 
-    public async Task UpdateRunAsync(Guid runId, DateTime runDate, double distanceInKm, TimeSpan avgPace)
+    public async Task UpdateRunAsync(Guid currentUserId, Guid runId, DateTime runDate, double distanceInKm, TimeSpan avgPace)
     {
         if (distanceInKm <= 0)
         {
@@ -50,13 +50,25 @@ public class RunsService : IRunsService
         }
 
         var run = await GetRunAndEnsureExistsAsync(runId);
+
+        if (run.UserId != currentUserId)
+        {
+            throw new UnauthorizedException("You are not authorized to update this run.");
+        }
+
         run.UpdateRun(runDate, distanceInKm, avgPace);
         await _runsRepository.UpdateRunAsync(run);
     }
 
-    public async Task DeleteRunAsync(Guid runId)
+    public async Task DeleteRunAsync(Guid currentUserId, Guid runId)
     {
         var run = await GetRunAndEnsureExistsAsync(runId);
+
+        if (run.UserId != currentUserId)
+        {
+            throw new UnauthorizedException("You are not authorized to delete this run.");
+        }
+
         await _runsRepository.DeleteRunAsync(run);
     }
 

@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RunMate.Application.Interfaces;
 using RunMate.Endpoints.Dtos;
+using System.Security.Claims;
 
 namespace RunMate.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/runs")]
 public class RunsController : ControllerBase
@@ -18,7 +21,8 @@ public class RunsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateRun([FromBody] CreateRunDto request)
     {
-        var newRun = await _runsService.CreateRunAsync(request.UserId, request.RunDate,
+        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var newRun = await _runsService.CreateRunAsync(currentUserId, request.RunDate,
         request.DistanceInKm, request.AvgPaceInMinutesPerKm);
 
         return CreatedAtAction(nameof(CreateRun), new { runId = newRun.Id });
@@ -47,14 +51,16 @@ public class RunsController : ControllerBase
         [FromRoute] Guid runId,
         [FromBody] UpdateRunDto request)
     {
-        await _runsService.UpdateRunAsync(runId, request.RunDate, request.DistanceInKm, request.AvgPaceInMinutesPerKm);
+        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        await _runsService.UpdateRunAsync(currentUserId, runId, request.RunDate, request.DistanceInKm, request.AvgPaceInMinutesPerKm);
         return NoContent();
     }
 
     [HttpDelete("{runId:guid}")]
     public async Task<IActionResult> DeleteRun([FromRoute] Guid runId)
     {
-        await _runsService.DeleteRunAsync(runId);
+        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        await _runsService.DeleteRunAsync(currentUserId, runId);
         return NoContent();
     }
 }

@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RunMate.Application.Interfaces;
 using RunMate.Endpoints.Dtos;
+using System.Security.Claims;
 
 namespace RunMate.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/users")]
 public class UsersController : ControllerBase
@@ -22,10 +25,11 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
-    [HttpPut("{userId:guid}")]
-    public async Task<IActionResult> UpdateUser([FromRoute] Guid userId, [FromBody] UpdateUserDto request)
+    [HttpPut("me")]
+    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto request)
     {
-        await _usersService.UpdateUserAsync(userId, request.FirstName, request.LastName);
+        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        await _usersService.UpdateUserAsync(currentUserId, request.FirstName, request.LastName);
         return NoContent();
     }
 }

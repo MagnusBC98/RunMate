@@ -1,11 +1,12 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RunMate.Infrastructure.Identity;
 using RunMate.Application.Interfaces;
 using RunMate.Endpoints.Dtos;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace RunMate.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/users")]
 public class StatsController : ControllerBase
@@ -24,10 +25,11 @@ public class StatsController : ControllerBase
         return Ok(stats);
     }
 
-    [HttpPut("{userId:guid}/stats")]
-    public async Task<IActionResult> UpdateStats([FromRoute] Guid userId, [FromBody] UpdateStatsDto request)
+    [HttpPut("me/stats")]
+    public async Task<IActionResult> UpdateStats([FromBody] UpdateStatsDto request)
     {
-        await _statsService.UpdateUserStatsAsync(userId, request.FiveKmPb, request.TenKmPb, request.HalfMarathonPb, request.MarathonPb);
+        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        await _statsService.UpdateUserStatsAsync(currentUserId, request.FiveKmPb, request.TenKmPb, request.HalfMarathonPb, request.MarathonPb);
         return NoContent();
     }
 }
