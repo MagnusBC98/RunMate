@@ -9,3 +9,9 @@
     @apply w-full rounded border border-gray-600 bg-gray-700 px-3 py-2 leading-tight text-white shadow;
   }
 }
+
+@layer components {
+  .nav-button {
+    @apply flex items-center justify-center rounded-lg p-6 text-xl font-bold transition;
+  }
+}

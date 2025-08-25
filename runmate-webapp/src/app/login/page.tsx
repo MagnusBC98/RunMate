@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -31,6 +32,8 @@ export default function LoginPage() {
       }
 
       const data = await response.json();
+      const decodedToken: { sub: string } = jwtDecode(data.token);
+      localStorage.setItem("userId", decodedToken.sub);
 
       localStorage.setItem("authToken", data.token);
 
