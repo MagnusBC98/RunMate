@@ -3,12 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const { login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -33,9 +35,8 @@ export default function LoginPage() {
 
       const data = await response.json();
       const decodedToken: { sub: string } = jwtDecode(data.token);
-      localStorage.setItem("userId", decodedToken.sub);
 
-      localStorage.setItem("authToken", data.token);
+      login(data.token, decodedToken.sub);
 
       router.push("/dashboard");
     } catch (err: any) {
