@@ -5,8 +5,8 @@ type LogoProps = {
 };
 
 export default function Logo({ size = "large" }: LogoProps) {
-  let width = 300;
-  let height = 100;
+  let width = 800;
+  let height = 300;
 
   if (size === "small") {
     width = 100;
