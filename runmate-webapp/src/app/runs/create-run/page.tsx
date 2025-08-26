@@ -56,7 +56,7 @@ export default function CreateRunPage() {
   return (
     <main className="flex flex-col items-center p-8">
       <div className="w-full max-w-lg">
-        <h1 className="mb-6 text-3xl font-bold">Log a New Run</h1>
+        <h1 className="mb-6 text-3xl font-bold">Create a New Run</h1>
         <form
           onSubmit={handleSubmit}
           className="rounded-lg bg-gray-800 p-8 shadow-md"

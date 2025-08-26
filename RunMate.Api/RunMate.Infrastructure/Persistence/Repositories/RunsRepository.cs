@@ -47,6 +47,13 @@ public class RunsRepository(ApplicationDbContext context) : IRunsRepository
         return await _context.Runs.FindAsync(runId);
     }
 
+    public async Task<IEnumerable<Run>> GetRunsByUserIdAsync(Guid userId)
+    {
+        return await _context.Runs
+            .Where(run => run.UserId == userId)
+            .ToListAsync();
+    }
+
     public async Task UpdateRunAsync(Run run)
     {
         _context.Runs.Update(run);

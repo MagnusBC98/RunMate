@@ -37,6 +37,11 @@ public class RunsService(
         return await GetRunAndEnsureExistsAsync(runId);
     }
 
+    public async Task<IEnumerable<Run>> GetRunsByUserIdAsync(Guid userId)
+    {
+        return await _runsRepository.GetRunsByUserIdAsync(userId);
+    }
+
     public async Task UpdateRunAsync(Guid currentUserId, Guid runId, DateTime runDate, double distanceInKm, TimeSpan avgPace)
     {
         if (distanceInKm <= 0)

@@ -41,6 +41,14 @@ public class RunsController(IRunsService runsService) : ControllerBase
         return Ok(run);
     }
 
+    [HttpGet("me")]
+    public async Task<IActionResult> GetMyRuns()
+    {
+        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var myRuns = await _runsService.GetRunsByUserIdAsync(currentUserId);
+        return Ok(myRuns);
+    }
+
     [HttpPut("{runId:guid}")]
     public async Task<IActionResult> UpdateRun(
         [FromRoute] Guid runId,
