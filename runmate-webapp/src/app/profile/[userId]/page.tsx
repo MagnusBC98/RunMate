@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useAuth } from "@/app/context/AuthContext";
 
-// Define types for the data we'll fetch
 type UserProfile = {
   id: string;
   firstName: string;
@@ -19,11 +17,9 @@ type UserStats = {
 };
 
 export default function ProfilePage() {
-  // State for the original, non-editable data
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [stats, setStats] = useState<UserStats | null>(null);
 
-  // State for the editable form fields
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [fiveKmPb, setFiveKmPb] = useState("");
@@ -31,7 +27,6 @@ export default function ProfilePage() {
   const [halfMarathonPb, setHalfMarathonPb] = useState("");
   const [marathonPb, setMarathonPb] = useState("");
 
-  // UI state
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [activeTab, setActiveTab] = useState("info");
   const [isLoading, setIsLoading] = useState(true);
