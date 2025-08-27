@@ -30,7 +30,8 @@ public class RunsController(IRunsService runsService) : ControllerBase
         [FromQuery] TimeSpan? minPace,
         [FromQuery] TimeSpan? maxPace)
     {
-        var runs = await _runsService.SearchRunsAsync(minDistanceKm, maxDistanceKm, minPace, maxPace);
+        var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var runs = await _runsService.SearchRunsAsync(currentUserId, minDistanceKm, maxDistanceKm, minPace, maxPace);
         return Ok(runs);
     }
 

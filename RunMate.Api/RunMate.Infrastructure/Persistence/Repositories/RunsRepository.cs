@@ -15,7 +15,8 @@ public class RunsRepository(ApplicationDbContext context) : IRunsRepository
         return run;
     }
 
-    public async Task<IEnumerable<Run>> SearchRunsAsync(double? minDistanceKm, double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace)
+    public async Task<IEnumerable<Run>> SearchRunsAsync(Guid currentUserId, double? minDistanceKm,
+        double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace)
     {
         var query = _context.Runs.AsQueryable();
 
@@ -38,6 +39,8 @@ public class RunsRepository(ApplicationDbContext context) : IRunsRepository
         {
             query = query.Where(run => run.AvgPaceInMinutesPerKm <= maxPace.Value);
         }
+
+        query = query.Where(run => run.UserId != currentUserId);
 
         return await query.ToListAsync();
     }
