@@ -116,7 +116,7 @@ export default function RunDetailsPage() {
     const token = localStorage.getItem("authToken");
     try {
       const response = await fetch(
-        `https://localhost:7251/api/runs/${runId}/requests`,
+        `https://localhost:7251/api/runs/${runId}/request`,
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
