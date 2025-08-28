@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 
 type AuthContextType = {
   isLoggedIn: boolean;
+  isLoading: boolean;
   login: (token: string, userId: string) => void;
   logout: () => void;
 };
@@ -19,12 +20,19 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      setIsLoggedIn(true);
+    try {
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        setIsLoggedIn(true);
+      }
+    } catch (e) {
+      console.error("Could not access localStorage.");
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -40,11 +48,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     router.push("/");
   };
 
-  return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = { isLoggedIn, login, logout, isLoading };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
