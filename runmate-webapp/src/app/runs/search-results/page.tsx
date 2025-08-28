@@ -73,6 +73,7 @@ export default function SearchResultsPage() {
       );
       if (!response.ok) throw new Error("Failed to send request.");
       alert("Run request sent successfully!");
+      setRuns((currentRuns) => currentRuns.filter((run) => run.id !== runId));
     } catch (err: any) {
       alert(err.message);
     }

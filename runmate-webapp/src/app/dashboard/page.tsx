@@ -64,7 +64,7 @@ export default function DashboardPage() {
             My Runs
           </Link>
 
-          <Link href="/runs/search" className="nav-button-sm">
+          <Link href="/runs/search-runs" className="nav-button-sm">
             Search Runs
           </Link>
 

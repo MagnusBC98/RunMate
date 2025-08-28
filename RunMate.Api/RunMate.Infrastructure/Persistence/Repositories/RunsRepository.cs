@@ -18,7 +18,14 @@ public class RunsRepository(ApplicationDbContext context) : IRunsRepository
     public async Task<IEnumerable<SearchRunsResult>> SearchRunsAsync(Guid currentUserId, double? minDistanceKm,
         double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace)
     {
+
+        var requestedRunIds = await _context.RunRequests
+            .Where(rr => rr.RequesterUserId == currentUserId)
+            .Select(rr => rr.RunId)
+            .ToListAsync();
+
         var query = _context.Runs.AsQueryable();
+        query = query.Where(run => !requestedRunIds.Contains(run.Id));
 
         if (minDistanceKm.HasValue)
         {
