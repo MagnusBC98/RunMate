@@ -34,7 +34,7 @@ public class RunRequestsService(
         return await GetRunRequestAndEnsureExistsAsync(requestId);
     }
 
-    public async Task<IEnumerable<RunRequest>> GetRunRequestsByRunIdAsync(Guid currentUserId, Guid runId)
+    public async Task<IEnumerable<GetRunRequestsResult>> GetRunRequestsByRunIdAsync(Guid currentUserId, Guid runId)
     {
         var run = await _runsRepository.GetRunByIdAsync(runId) ??
             throw new NotFoundException($"Run with ID {runId} not found.");

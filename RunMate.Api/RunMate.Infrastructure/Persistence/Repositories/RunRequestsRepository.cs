@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using RunMate.Application.Exceptions;
 using RunMate.Application.RunRequests;
 using RunMate.Domain.Entities;
+using RunMate.Application.Runs;
 
 namespace RunMate.Infrastructure.Persistence.Repositories;
 
@@ -21,10 +21,24 @@ public class RunRequestsRepository(ApplicationDbContext context) : IRunRequestsR
         return await _context.RunRequests.FindAsync(requestId);
     }
 
-    public async Task<IEnumerable<RunRequest>> GetRunRequestsByRunIdAsync(Guid runId)
+    public async Task<IEnumerable<GetRunRequestsResult>> GetRunRequestsByRunIdAsync(Guid runId)
     {
-        var runRequests = _context.RunRequests.Where(rr => rr.RunId == runId);
-        return await runRequests.ToListAsync();
+        var requests = await _context.RunRequests
+        .Where(rr => rr.RunId == runId)
+        .Join(
+            _context.Users,
+            runRequest => runRequest.RequesterUserId,
+            user => user.Id,
+            (runRequest, user) => new GetRunRequestsResult(
+                runRequest.Id,
+                runRequest.Status.ToString(),
+                user.FirstName ?? string.Empty,
+                user.LastName ?? string.Empty,
+                user.Id
+            ))
+        .ToListAsync();
+
+        return requests;
     }
 
     public async Task UpdateRequestAsync(RunRequest request)
