@@ -27,7 +27,7 @@ public class RunsService(
         return await _runsRepository.AddRunAsync(run);
     }
 
-    public async Task<IEnumerable<Run>> SearchRunsAsync(Guid currentUserId, double? minDistanceKm,
+    public async Task<IEnumerable<SearchRunsResult>> SearchRunsAsync(Guid currentUserId, double? minDistanceKm,
         double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace)
     {
         return await _runsRepository.SearchRunsAsync(currentUserId, minDistanceKm, maxDistanceKm, minPace, maxPace);

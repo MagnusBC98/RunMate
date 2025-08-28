@@ -62,7 +62,7 @@ export default function MyRunsPage() {
         ) : (
           <div>
             {runs.map((run) => (
-              <RunCard key={run.id} run={run} />
+              <RunCard key={run.id} run={run} isClickable={true} />
             ))}
           </div>
         )}

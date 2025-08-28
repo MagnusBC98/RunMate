@@ -5,7 +5,7 @@ namespace RunMate.Application.Runs;
 public interface IRunsService
 {
     Task<Run> CreateRunAsync(Guid userId, DateTime runDate, double distanceInKm, TimeSpan avgPace);
-    Task<IEnumerable<Run>> SearchRunsAsync(Guid currentUserId, double? minDistanceKm,
+    Task<IEnumerable<SearchRunsResult>> SearchRunsAsync(Guid currentUserId, double? minDistanceKm,
         double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace);
     Task<Run> GetRunByIdAsync(Guid runId);
     Task<IEnumerable<Run>> GetRunsByUserIdAsync(Guid userId);
