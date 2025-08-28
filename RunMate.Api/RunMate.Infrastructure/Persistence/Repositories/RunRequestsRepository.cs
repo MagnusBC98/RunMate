@@ -61,7 +61,8 @@ public class RunRequestsRepository(ApplicationDbContext context) : IRunRequestsR
                     request.RunId,
                     request.Run.RunDate,
                     $"{user.FirstName} {user.LastName}",
-                    user.Id
+                    user.Id,
+                    request.Id
                 ))
             .ToListAsync();
 
@@ -75,7 +76,8 @@ public class RunRequestsRepository(ApplicationDbContext context) : IRunRequestsR
                     request.RunId,
                     request.Run.RunDate,
                     $"{user.FirstName} {user.LastName}",
-                    user.Id
+                    user.Id,
+                    request.Id
                 ))
             .ToListAsync();
 

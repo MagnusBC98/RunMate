@@ -4,5 +4,6 @@ public record RunMateResult(
     Guid RunId,
     DateTime RunDate,
     string RunMateUserName,
-    Guid RunMateUserId
+    Guid RunMateUserId,
+    Guid RequestId
 );
