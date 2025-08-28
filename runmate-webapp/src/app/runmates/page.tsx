@@ -67,18 +67,15 @@ export default function MyRunMatesPage() {
                 className="rounded-lg bg-gray-800 p-4 flex items-center space-x-4"
               >
                 {" "}
-                {/* Added flex, items-center, space-x-4 */}
-                {/* Circular Logo */}
                 <div className="flex-shrink-0">
                   <img
-                    src="/logo-cropped.jpg" // **Replace with the actual path to your logo image**
+                    src="/logo-cropped.jpg"
                     alt="RunMate Logo"
-                    className="h-12 w-12 object-fill rounded-full " // Larger size
+                    className="h-12 w-12 object-fill rounded-full "
                   />
                 </div>
                 <div>
                   {" "}
-                  {/* This div wraps the text content */}
                   <p className="font-bold text-lg">
                     Run on:{" "}
                     {new Date(mate.runDate).toLocaleDateString("en-GB", {
