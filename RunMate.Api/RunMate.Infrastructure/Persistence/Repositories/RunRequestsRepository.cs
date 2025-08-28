@@ -26,7 +26,7 @@ public class RunRequestsRepository(ApplicationDbContext context) : IRunRequestsR
     public async Task<IEnumerable<GetRunRequestsResult>> GetRunRequestsByRunIdAsync(Guid runId)
     {
         var requests = await _context.RunRequests
-        .Where(rr => rr.RunId == runId)
+        .Where(rr => rr.RunId == runId && rr.Status == RunRequestStatus.Pending)
         .Join(
             _context.Users,
             runRequest => runRequest.RequesterUserId,

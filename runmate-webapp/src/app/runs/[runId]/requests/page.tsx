@@ -53,11 +53,9 @@ export default function RunRequestsPage() {
     fetchRunRequests();
   }, [runId, router]);
 
-  const handleStatusChange = (requestId: string, newStatus: string) => {
+  const handleStatusChange = (requestId: string) => {
     setRequests((currentRequests) =>
-      currentRequests.map((req) =>
-        req.id === requestId ? { ...req, status: newStatus } : req
-      )
+      currentRequests.filter((req) => req.id !== requestId)
     );
   };
 
