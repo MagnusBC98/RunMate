@@ -55,34 +55,20 @@ export default function DashboardPage() {
   return (
     <main className="flex min-h-screen flex-col items-center bg-gray-900 p-8 text-white">
       <div className="w-full max-w-4xl">
-        <h1 className="mb-8 text-4xl font-bold">Hello, {user.firstName}!</h1>
+        <h1 className="mb-8 text-center text-4xl font-bold">
+          Hello, {user.firstName}!
+        </h1>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <Link
-            href="/runs/create-run"
-            className="nav-button bg-gray-700 hover:bg-gray-600"
-          >
-            Create Run
-          </Link>
-
-          <Link
-            href="/runs/my-runs"
-            className="nav-button bg-gray-700 hover:bg-gray-600"
-          >
+        <div className="flex w-full flex-wrap items-center justify-center gap-4 rounded-xl border border-gray-700 bg-gray-800 p-4">
+          <Link href="/runs/my-runs" className="nav-button-sm">
             My Runs
           </Link>
 
-          <Link
-            href="/runs/search-runs"
-            className="nav-button bg-gray-700 hover:bg-gray-600"
-          >
+          <Link href="/runs/search" className="nav-button-sm">
             Search Runs
           </Link>
 
-          <Link
-            href="/runmates"
-            className="nav-button bg-gray-700 hover:bg-gray-600"
-          >
+          <Link href="/runmates" className="nav-button-sm">
             My RunMates
           </Link>
         </div>
