@@ -3,6 +3,7 @@ using RunMate.Application.Users;
 using RunMate.Application.Authentication;
 using RunMate.Application.Runs;
 using RunMate.Application.RunRequests;
+using RunMate.Application.RunMates;
 
 namespace RunMate.Application;
 
@@ -15,6 +16,7 @@ public static class DependencyInjection
         services.AddScoped<IStatsService, StatsService>();
         services.AddScoped<IRunsService, RunsService>();
         services.AddScoped<IRunRequestsService, RunRequestsService>();
+        services.AddScoped<IRunMatesService, RunMatesService>();
 
         return services;
     }

@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using RunMate.Application.RunRequests;
 using RunMate.Domain.Entities;
 using RunMate.Application.Runs;
+using RunMate.Domain.Enums;
+using RunMate.Application.RunMates.Dtos;
 
 namespace RunMate.Infrastructure.Persistence.Repositories;
 
@@ -45,5 +47,38 @@ public class RunRequestsRepository(ApplicationDbContext context) : IRunRequestsR
     {
         _context.RunRequests.Update(request);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<RunMateResult>> GetRunMatesAsync(Guid userId)
+    {
+        var requestsAsOwner = await _context.RunRequests
+            .Where(rr => rr.RunOwnerUserId == userId && rr.Status == RunRequestStatus.Accepted)
+            .Join(
+                _context.Users,
+                request => request.RequesterUserId,
+                user => user.Id,
+                (request, user) => new RunMateResult(
+                    request.RunId,
+                    request.Run.RunDate,
+                    $"{user.FirstName} {user.LastName}",
+                    user.Id
+                ))
+            .ToListAsync();
+
+        var requestsAsRequester = await _context.RunRequests
+            .Where(rr => rr.RequesterUserId == userId && rr.Status == RunRequestStatus.Accepted)
+            .Join(
+                _context.Users,
+                request => request.RunOwnerUserId,
+                user => user.Id,
+                (request, user) => new RunMateResult(
+                    request.RunId,
+                    request.Run.RunDate,
+                    $"{user.FirstName} {user.LastName}",
+                    user.Id
+                ))
+            .ToListAsync();
+
+        return requestsAsOwner.Concat(requestsAsRequester);
     }
 }
