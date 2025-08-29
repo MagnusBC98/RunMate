@@ -52,9 +52,17 @@ public class RunRequestsService(
     {
         var runRequest = await GetRunRequestAndEnsureExistsAsync(requestId);
 
-        if (runRequest.RunOwnerUserId != currentUserId)
+        bool isOwner = runRequest.RunOwnerUserId == currentUserId;
+        bool isRequester = runRequest.RequesterUserId == currentUserId;
+
+        if (newStatus.Equals("Accepted", StringComparison.OrdinalIgnoreCase) && !isOwner)
         {
-            throw new UnauthorizedException("You are not authorized to accept or decline this run request.");
+            throw new UnauthorizedException("Only the run owner can accept a request.");
+        }
+
+        if (newStatus.Equals("Declined", StringComparison.OrdinalIgnoreCase) && !isOwner && !isRequester)
+        {
+            throw new UnauthorizedException("You are not authorized to decline this request.");
         }
 
         if (Enum.TryParse<RunRequestStatus>(newStatus, true, out var statusEnum))
