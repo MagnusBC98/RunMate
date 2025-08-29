@@ -1,6 +1,7 @@
 using RunMate.Application.Exceptions;
 using RunMate.Application.Users;
 using RunMate.Domain.Entities;
+using RunMate.Application.Runs.Dtos;
 
 namespace RunMate.Application.Runs;
 

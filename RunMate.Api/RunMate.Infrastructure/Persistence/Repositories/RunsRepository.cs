@@ -1,6 +1,7 @@
 using RunMate.Application.Runs;
 using RunMate.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using RunMate.Application.Runs.Dtos;
 
 namespace RunMate.Infrastructure.Persistence.Repositories;
 
@@ -18,7 +19,6 @@ public class RunsRepository(ApplicationDbContext context) : IRunsRepository
     public async Task<IEnumerable<SearchRunsResult>> SearchRunsAsync(Guid currentUserId, double? minDistanceKm,
         double? maxDistanceKm, TimeSpan? minPace, TimeSpan? maxPace)
     {
-
         var requestedRunIds = await _context.RunRequests
             .Where(rr => rr.RequesterUserId == currentUserId)
             .Select(rr => rr.RunId)

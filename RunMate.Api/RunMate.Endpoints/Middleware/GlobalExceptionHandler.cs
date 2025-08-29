@@ -4,10 +4,16 @@ using RunMate.Application.Exceptions;
 
 namespace RunMate.Api.Middleware;
 
+/// <summary>
+/// Manages exception handling throughout the system.
+/// </summary>
 public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
     private readonly ILogger<GlobalExceptionHandler> _logger = logger;
 
+    /// <summary>
+    /// Handles incoming exceptions and delivers an appropriate response based on the exception type.
+    /// </summary>
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
         Exception exception,

@@ -3,6 +3,7 @@ using RunMate.Domain.Entities;
 using RunMate.Application.Runs;
 using RunMate.Application.Users;
 using RunMate.Domain.Enums;
+using RunMate.Application.Runs.Dtos;
 
 namespace RunMate.Application.RunRequests;
 

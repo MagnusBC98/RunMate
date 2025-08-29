@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RunMate.Application.RunRequests;
 using RunMate.Domain.Entities;
-using RunMate.Application.Runs;
+using RunMate.Application.Runs.Dtos;
 using RunMate.Domain.Enums;
 using RunMate.Application.RunMates.Dtos;
 
